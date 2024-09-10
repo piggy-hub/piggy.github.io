@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://piggy926.github.io</id>
+    <title> • Posts by &#34;database&#34; tag</title>
+    <link href="https://piggy926.github.io" />
+    <updated>2023-11-10T09:35:06.000Z</updated>
+    <category term="database" />
+    <category term="mysql" />
+    <category term="linux" />
+    <category term="nginx" />
+    <category term="freeSydney" />
+    <category term="newBing" />
+    <entry>
+        <id>https://piggy926.github.io/2023/11/10/database/mysql-aesEncrypt/</id>
+        <title>MySQL使用AES_ENCRYPT()/AES_DECRYPT()加解密</title>
+        <link rel="alternate" href="https://piggy926.github.io/2023/11/10/database/mysql-aesEncrypt/"/>
+        <content type="html">&lt;h1 id=&#34;前言&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#前言&#34;&gt;#&lt;/a&gt; 前言&lt;/h1&gt;
+&lt;p&gt;MySQL 是一个流行的关系型数据库管理系统，它提供了许多内置函数来处理和加密数据。其中一个常用的函数是 AES_ENCRYPT，它可以用于对字段值进行加密处理。本文将详细介绍如何在 MySQL 中使用 AES_ENCRYPT 函数进行字段加密，并提供相应的源代码示例。&lt;/p&gt;
+&lt;h1 id=&#34;直接使用aes_encryptaes_decrypt函数导致的问题&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#直接使用aes_encryptaes_decrypt函数导致的问题&#34;&gt;#&lt;/a&gt; 直接使用 AES_ENCRYPT&amp;amp;&amp;amp;AES_DECRYPT 函数导致的问题。&lt;/h1&gt;
+&lt;figure class=&#34;highlight sql&#34;&gt;&lt;figcaption data-lang=&#34;SQL&#34;&gt;&lt;span&gt;l&lt;/span&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; AES_ENCRYPT&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;test_code&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;key&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;结果 加密过后的字符串是一串很奇怪的字符。&lt;br&gt;
+&lt;img data-src=&#34;https://s1.imagehub.cc/images/2023/11/10/b9fdc4040daa7909dbe6d74d0020ccc5.png&#34; alt=&#34;直接使用aes_encrypt()函数加密&#34;&gt;&lt;br&gt;
+尝试使用上面加密过后的字符解密，也不会成功。&lt;/p&gt;
+&lt;figure class=&#34;highlight sql&#34;&gt;&lt;figcaption data-lang=&#34;SQL&#34;&gt;&lt;span&gt;l&lt;/span&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; AES_DECRYPT&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;a\���1�)�j���V&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;key&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h1 id=&#34;解决办法&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#解决办法&#34;&gt;#&lt;/a&gt; 解决办法&lt;/h1&gt;
+&lt;p&gt;使用 hex () 和 unhex () 函数处理原数据。&lt;/p&gt;
+&lt;h2 id=&#34;hex与unhex函数&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#hex与unhex函数&#34;&gt;#&lt;/a&gt; hex () 与 unhex () 函数&lt;/h2&gt;
+&lt;p&gt;hex ()：将一个字符串或数字转换为十六进制格式的字符串。&lt;/p&gt;
+&lt;p&gt;unhex ()：把十六进制格式的字符串转化为原来的格式。每对十六进制数字转化为一个字符。执行 hex（str）的逆运算。即，它将参数中的每对十六进制数字解释为一个数字，并将其转换为该数字表示的字符。结果字符将作为二进制字符串返回。参数字符串中的字符必须为合法的十六进制数字：“ 0” …“ 9”，“ A” …“ F”，“ a” …“ f”。如果 UNHEX 在参数中遇到任何非十六进制数字，则返回 NULL。&lt;/p&gt;
+&lt;h1 id=&#34;再次尝试aes加密&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#再次尝试aes加密&#34;&gt;#&lt;/a&gt; 再次尝试 AES 加密&lt;/h1&gt;
+&lt;p&gt;如此加密可以直接使用 varchar 类型直接存储。&lt;br&gt;
+&lt;img data-src=&#34;https://s1.imagehub.cc/images/2023/11/10/c3cee1850e1dc5250a4b0bfe75e37e48.jpeg&#34; alt=&#34;mysql aes encrypt01&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;解密sql&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#解密sql&#34;&gt;#&lt;/a&gt; 解密 SQL&lt;/h1&gt;
+&lt;figure class=&#34;highlight sql&#34;&gt;&lt;figcaption data-lang=&#34;SQL&#34;&gt;&lt;span&gt;l&lt;/span&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt; AES_DECRYPT&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;UNHEX&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;17615CB915B4D931F9299F6AFDEAC856&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;key&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
+        <category term="database" />
+        <category term="mysql" />
+        <updated>2023-11-10T09:35:06.000Z</updated>
+    </entry>
+</feed>

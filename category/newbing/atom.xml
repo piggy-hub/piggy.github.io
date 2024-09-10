@@ -4,10 +4,12 @@
     <title> • Posts by &#34;newbing&#34; category</title>
     <link href="https://piggy926.github.io" />
     <updated>2023-05-06T09:33:15.000Z</updated>
+    <category term="database" />
+    <category term="mysql" />
     <category term="linux" />
+    <category term="nginx" />
     <category term="freeSydney" />
     <category term="newBing" />
-    <category term="nginx" />
     <entry>
         <id>https://piggy926.github.io/2023/05/06/sydney/export-chat/</id>
         <title>导出newBing聊天记录</title>

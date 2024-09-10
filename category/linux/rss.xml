@@ -7,10 +7,12 @@
         <language>zh-CN</language>
         <pubDate>Mon, 06 Nov 2023 14:35:16 +0800</pubDate>
         <lastBuildDate>Mon, 06 Nov 2023 14:35:16 +0800</lastBuildDate>
+        <category>database</category>
+        <category>mysql</category>
         <category>linux</category>
+        <category>nginx</category>
         <category>freeSydney</category>
         <category>newBing</category>
-        <category>nginx</category>
         <item>
             <guid isPermalink="true">https://piggy926.github.io/2023/11/06/linux/nginx-location/</guid>
             <title>nginx location块配置中斜杠&#34;/&#34;的路径匹配规则</title>

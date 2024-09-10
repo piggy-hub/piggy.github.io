@@ -1,0 +1,19 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "null • All posts by \"mysql\" tag",
+    "description": "欢迎来到Piggy的笔记空间~这里主要会记录一些随笔🌸",
+    "home_page_url": "https://piggy926.github.io",
+    "items": [
+        {
+            "id": "https://piggy926.github.io/2023/11/10/database/mysql-aesEncrypt/",
+            "url": "https://piggy926.github.io/2023/11/10/database/mysql-aesEncrypt/",
+            "title": "MySQL使用AES_ENCRYPT()/AES_DECRYPT()加解密",
+            "date_published": "2023-11-10T09:35:06.000Z",
+            "content_html": "<h1 id=\"前言\"><a class=\"markdownIt-Anchor\" href=\"#前言\">#</a> 前言</h1>\n<p>MySQL 是一个流行的关系型数据库管理系统，它提供了许多内置函数来处理和加密数据。其中一个常用的函数是 AES_ENCRYPT，它可以用于对字段值进行加密处理。本文将详细介绍如何在 MySQL 中使用 AES_ENCRYPT 函数进行字段加密，并提供相应的源代码示例。</p>\n<h1 id=\"直接使用aes_encryptaes_decrypt函数导致的问题\"><a class=\"markdownIt-Anchor\" href=\"#直接使用aes_encryptaes_decrypt函数导致的问题\">#</a> 直接使用 AES_ENCRYPT&amp;&amp;AES_DECRYPT 函数导致的问题。</h1>\n<figure class=\"highlight sql\"><figcaption data-lang=\"SQL\"><span>l</span></figcaption><table><tr><td data-num=\"1\"></td><td><pre><span class=\"token keyword\">select</span> AES_ENCRYPT<span class=\"token punctuation\">(</span><span class=\"token string\">'test_code'</span><span class=\"token punctuation\">,</span><span class=\"token string\">'key'</span><span class=\"token punctuation\">)</span></pre></td></tr></table></figure><p>结果 加密过后的字符串是一串很奇怪的字符。<br>\n<img data-src=\"https://s1.imagehub.cc/images/2023/11/10/b9fdc4040daa7909dbe6d74d0020ccc5.png\" alt=\"直接使用aes_encrypt()函数加密\"><br>\n尝试使用上面加密过后的字符解密，也不会成功。</p>\n<figure class=\"highlight sql\"><figcaption data-lang=\"SQL\"><span>l</span></figcaption><table><tr><td data-num=\"1\"></td><td><pre><span class=\"token keyword\">select</span> AES_DECRYPT<span class=\"token punctuation\">(</span><span class=\"token string\">'\u0017a\\�\u0015��1�)�j���V'</span><span class=\"token punctuation\">,</span><span class=\"token string\">'key'</span><span class=\"token punctuation\">)</span></pre></td></tr></table></figure><h1 id=\"解决办法\"><a class=\"markdownIt-Anchor\" href=\"#解决办法\">#</a> 解决办法</h1>\n<p>使用 hex () 和 unhex () 函数处理原数据。</p>\n<h2 id=\"hex与unhex函数\"><a class=\"markdownIt-Anchor\" href=\"#hex与unhex函数\">#</a> hex () 与 unhex () 函数</h2>\n<p>hex ()：将一个字符串或数字转换为十六进制格式的字符串。</p>\n<p>unhex ()：把十六进制格式的字符串转化为原来的格式。每对十六进制数字转化为一个字符。执行 hex（str）的逆运算。即，它将参数中的每对十六进制数字解释为一个数字，并将其转换为该数字表示的字符。结果字符将作为二进制字符串返回。参数字符串中的字符必须为合法的十六进制数字：“ 0” …“ 9”，“ A” …“ F”，“ a” …“ f”。如果 UNHEX 在参数中遇到任何非十六进制数字，则返回 NULL。</p>\n<h1 id=\"再次尝试aes加密\"><a class=\"markdownIt-Anchor\" href=\"#再次尝试aes加密\">#</a> 再次尝试 AES 加密</h1>\n<p>如此加密可以直接使用 varchar 类型直接存储。<br>\n<img data-src=\"https://s1.imagehub.cc/images/2023/11/10/c3cee1850e1dc5250a4b0bfe75e37e48.jpeg\" alt=\"mysql aes encrypt01\"></p>\n<h1 id=\"解密sql\"><a class=\"markdownIt-Anchor\" href=\"#解密sql\">#</a> 解密 SQL</h1>\n<figure class=\"highlight sql\"><figcaption data-lang=\"SQL\"><span>l</span></figcaption><table><tr><td data-num=\"1\"></td><td><pre><span class=\"token keyword\">SELECT</span> AES_DECRYPT<span class=\"token punctuation\">(</span>UNHEX<span class=\"token punctuation\">(</span><span class=\"token string\">'17615CB915B4D931F9299F6AFDEAC856'</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">,</span><span class=\"token string\">'key'</span><span class=\"token punctuation\">)</span></pre></td></tr></table></figure>",
+            "tags": [
+                "database",
+                "mysql"
+            ]
+        }
+    ]
+}
